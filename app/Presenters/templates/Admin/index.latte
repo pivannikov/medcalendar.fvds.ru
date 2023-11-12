@@ -1,0 +1,47 @@
+{block content}
+	<h1 n:block="title">Мой блог</h1>
+
+
+    <a n:href="Admin:users" n:if="$user->isLoggedIn() && $user->isInRole('admin')">Users</a>
+    <a n:href="Admin:elements" n:if="$user->isLoggedIn() && $user->isInRole('admin')">Elements</a>
+
+	<table class="iksweb">
+        <thead>
+            <tr>
+            <th>user_id</th>
+            <th>element_id</th>
+            <th>date_from</th>
+            <th>date_to</th>
+            <th>edit</th>
+            <th>delete</th>
+            </tr>
+        </thead>
+		<tbody>
+			<tr n:foreach="$shedule as $item" class="element__row-{$item->element->id}">
+				<td>{$item->user->first_name} {$item->user->last_name}</td>
+				<td>{$item->element->title}</td>
+				<td class="element__td_date_from-{$item->element->id} elements__td">{$item->date_from|date:'j.n.Y'}</td>
+				<td class="element__td_date_to-{$item->element->id} elements__td">{$item->date_to|date:'j.n.Y'}</td>
+				<td><a n:href="Panel:edit $item->id"><button>edit</button></a></td>
+				<td>
+					<div class="css-modal-checkbox-container">
+						<label for="css-modal-checkbox" class="css-modal-checkbox">delete</label>
+					</div>
+				</td>
+
+				<!-- Modal window -->    
+				<input type="checkbox" id="css-modal-checkbox" />    
+				<div class="cmc">
+					<div class="cmt">
+						<a n:href="Panel:delete $item->id"><button>delete</button></a>
+					</div>
+					<label for="css-modal-checkbox" class="css-modal-close"></label>
+				</div>
+                <!-- Modal window /-->    
+
+			</tr>
+		</tbody>
+	</table>
+
+
+{/block}

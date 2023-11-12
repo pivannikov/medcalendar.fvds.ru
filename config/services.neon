@@ -1,0 +1,12 @@
+services:
+	- App\Router\RouterFactory::createRouter
+	- App\Model\LocalAuthenticator
+	- App\Model\SheduleFacade
+
+
+
+search:
+	-	in: %appDir%
+		classes:
+			- *Factory
+			- *Facade
