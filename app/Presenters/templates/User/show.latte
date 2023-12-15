@@ -1,0 +1,31 @@
+{block content}
+
+<section class="shedule">
+	<div class="container">
+		<h1 n:block="title">Пользователь: {$member->first_name} {$member->last_name}</h1>
+
+		<table class="users__table">
+			<thead>
+				<tr>
+					<th>Наименование элемента</th>
+					<th>Дозировка</th>
+					<th>Дата начала</th>
+					<th>Дата окончания</th>
+					<th>Время приема</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr n:foreach="$shedules as $item" class="">
+					<td>{$item->element->title}</td>
+					<td>{$item->dosage}</td>
+					<td>{$item->date_from}</td>
+					<td>{$item->date_to}</td>
+					<td>{$item->receipt_time}</td>
+					
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>
+
+{/block}

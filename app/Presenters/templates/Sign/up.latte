@@ -1,5 +1,75 @@
 {block content}
 
-<h1 n:block=title>New user</h1>
 
-{control signUpForm}
+<!-- {control signUpForm} -->
+
+<section class="sign-in">
+	<div class="sign-in__container">
+        <h1 n:block="title">Регистрация</h1>
+
+        <form n:name=signUpForm class=form>
+
+            <div class="label_block">
+            </div>
+            <div style="display: inline;">
+                <label for="first_name" n:name=first_name class="label">Имя</label>
+                <input id="first_name" n:name=first_name class="sign_input">
+            </div>           
+
+            <div class="label_block">
+                <label for="last_name" n:name=last_name class="label">Фамилия</label>
+            </div>
+            <div>
+                <input id="last_name" n:name=last_name class="sign_input">
+            </div>           
+
+            <div class="label_block">
+                <label for="email" n:name=email class="label">E-mail</label>
+            </div>
+            <div>
+                <input id="email" n:name=email class="sign_input">
+            </div>           
+
+            <div class="label_block">
+                <label for="phone" n:name=phone class="label">Телефон</label>
+            </div>
+            <div>
+                <input id="phone" n:name=phone class="sign_input">
+            </div>    
+
+            <div class="label_block">
+                <label for="birth_date" n:name=birth_date class="label">Дата рождения</label>
+            </div>
+            <div>
+                <input id="birth_date" n:name=birth_date class="sign_input">
+            </div>    
+
+            <fieldset class="fieldset mt-2">
+                <legend>Выберите пол</legend>
+              
+                <div>
+                  <input n:name=gender type="radio" id="male" name="gender" value="m" checked />
+                  <label for="male">Мужской</label>
+                </div>
+                <div>
+                  <input n:name=gender type="radio" id="female" name="gender" value="f" />
+                  <label for="male">Женский</label>
+                </div>               
+            </fieldset>
+
+            <div class="label_block">
+                <label for="password" n:name=password class="label">Password</label>
+            </div>
+            <div>
+                <input id="password" n:name=password class="sign_input">
+            </div>    
+
+            <div>
+                <input n:name=send class="custom_button button_success mt-2" value="Подтвердить">
+            </div>
+        </form>
+
+    </div>
+</section>
+
+{/block}

@@ -1,0 +1,58 @@
+{block content}
+
+<section class="elements">
+	<div class="container">
+		<h1 n:block="title" class="mt-2">Элементы</h1>
+
+		<a n:if="$user->isInRole('admin')" n:href="Element:create">
+			<button class="custom_button button_default mt-2 mb-1">Добавить элемент</button>
+		</a>
+
+		<table class="elements__table">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>Название элемента</th>
+					<th>Название англ.</th>
+					<th>Описание</th>
+					<th>Напоминание о покупке</th>
+					<th>Редактировать</th>
+					<th>Удалить</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr n:foreach="$elements as $element" class="">
+					{dump $element}
+					<td>{$element->id}</td>
+					<td>{$element->title}</td>
+					<td>{$element->title_en}</td>
+					<td>{$element->description|noescape}</td>
+
+					{if $element->buy_reminder == 14}
+						<td>за две недели</td>
+					{elseif $element->buy_reminder == 7}
+						<td>за неделю</td>
+					{else}
+						<td></td>
+					{/if}
+
+					<td>
+						<a n:href="Element:edit $element->id">
+							<button class="custom_button button_success">edit</button>
+						</a>
+					</td>
+					<td>
+						<button class="custom_button button_danger">delete</button>
+					</td>
+
+					<!-- Модальное окно -->    
+					
+					
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>
+
+{/block}
+

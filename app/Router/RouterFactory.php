@@ -21,16 +21,18 @@ final class RouterFactory
 
 		$router->addRoute('panel/index', 'Panel:index');
 		$router->addRoute('panel/create', 'Panel:create');
-		$router->addRoute('panel/edit/[/<id \d+>]', 'Panel:edit');
+		$router->addRoute('panel/edit[/<id \d+>]', 'Panel:edit');
 		$router->addRoute('panel/delete/[/<id \d+>]', 'Panel:delete');
 		
-		$router->addRoute('admin/index', 'Admin:index');
-		$router->addRoute('admin/users', 'Admin:users');
-		$router->addRoute('admin/elements', 'Admin:elements');
-		// $router->withPath('admin')
-		// 	->addRoute('users', 'Home:users')
-		// 	->addRoute('elements', 'Home:elements')
-		// 	->addRoute('', 'Home:shedule');
+		$router->withPath('admin')
+			->addRoute('panel/index', 'Admin:index')
+			->addRoute('users/index', 'User:index')
+			->addRoute('user/show[/<id \d+>]', 'User:show')
+			->addRoute('elements/index', 'Element:index')
+			->addRoute('element/create', 'Element:create')
+			->addRoute('element/edit[/<id \d+>]', 'Element:edit')
+			->addRoute('element/delete[/<id \d+>]', 'Element:delete');
+		
 		return $router;
 	}
 }

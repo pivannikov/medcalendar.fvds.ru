@@ -1,0 +1,29 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Начало приема</title>
+	<style>
+	body {
+		background-color: #eeeeee;
+	}
+	.content {
+		padding: 10px;
+	}
+	a {
+		text-decoration: none;
+		color: #424242;
+	}
+	</style>
+</head>
+<body>
+	<div class="content">
+		<p>С <b>{$date_from|date:'j.n.Y'}</b> по <b>{$date_to|date:'j.n.Y'}</b> начинается прием элемента <b>{$element_title|capitalize}</b>.</p>
+		<p>Дозировка: <b>{$element_dosage}</b></p>
+		<p>Время приема: <b>{$receipt_time}</b></p>
+		<p><a href="http://medcalendar.fvds.ru">www.medcalendar.fvds.ru</a></p>
+	</div>
+</body>
+</html>
+
+
+

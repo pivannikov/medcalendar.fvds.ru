@@ -1,0 +1,34 @@
+{block content}
+
+<section class="shedule">
+	<div class="container">
+		<h1 n:block="title">Все пользователи</h1>
+		<table class="users__table">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>Имя</th>
+					<th>email</th>
+					<th>Телефон</th>
+					<th>Дата рождения</th>
+					<th>Роль пользователя</th>
+					<th>Пол</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr n:foreach="$users as $item" class="">
+					<td><a n:href="User:show $item->id">{$item->id}</a></td>
+					<td>{$item->first_name} {$item->last_name}</td>
+					<td>{$item->email}</td>
+					<td>{$item->phone}</td>
+					<td>{$item->birth_date}</td>
+					<td>{$item->role}</td>
+					<td>{$item->gender}</td>
+					
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>
+
+{/block}

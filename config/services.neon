@@ -1,7 +1,7 @@
 services:
 	- App\Router\RouterFactory::createRouter
 	- App\Model\LocalAuthenticator
-	- App\Model\SheduleFacade
+	- App\Console\EmailCronCommand
 
 
 
@@ -10,3 +10,12 @@ search:
 		classes:
 			- *Factory
 			- *Facade
+
+
+extensions:
+	console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
+
+
+
+
+

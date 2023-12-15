@@ -1,5 +1,33 @@
 {block content}
-<li><a n:href="Sign:up">Sign up</a></li>
-<h1 n:block=title>Войти</h1>
 
-{control signInForm}
+<section class="sign-in">
+	<div class="sign-in__container">
+
+        <form n:name=signInForm class=form>
+
+            <div class="label_block">
+                <label for="email" n:name=email class="label">Login</label>
+            </div>
+            <div>
+                <input id="email" n:name=email class="sign_input">
+            </div>           
+            <div>
+
+            <div class="label_block">
+                <label for="password" n:name=password class="label">Password</label>
+            </div>
+            <div>
+                <input id="password" n:name=password class="sign_input">
+            </div>           
+            <div>
+                <input n:name=send class="custom_button button_success mt-2">
+            </div>
+        </form>
+        <div>
+            <a n:href="Sign:up" class="custom_button button_default mt-2">Регистрация</a>
+        </div>
+
+    </div>
+</section>
+
+{/block}

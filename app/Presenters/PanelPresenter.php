@@ -6,10 +6,25 @@ namespace App\Presenters;
 
 use Nette;
 use Nette\Application\UI\Form;
+use Nette\Neon\Neon;
 
 
 final class PanelPresenter extends Nette\Application\UI\Presenter
 {
+    // private Nette\DI\Container $context;
+
+	// public function injectContext(Nette\DI\Container $context)
+	// {
+	// 	$this->context = $context;
+	// }
+
+	// public function getContext(): Nette\DI\Container
+	// {
+	// 	return $this->context;
+	// }
+
+
+
     public function __construct(
 		private Nette\Database\Explorer $database,
 	) {
@@ -27,19 +42,23 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
 
 
     public function renderIndex(): void
-    {
-
+    {        
         $user = $this->getUser();
-        
+
         $this->template->shedule = $this->database
             ->table('shedule')
-			->where('user_id', $user->getId())
+            ->where('user_id', $user->getId())
             ->limit(5);
+
     }
 
 
     public function renderEdit(int $sheduleId): void
     {
+        if (!$this->getUser()->isInRole('admin')) {
+			$this->redirect('Panel:index');
+		}
+
         $shedule = $this->database
             ->table('shedule')
 			->where('id', $sheduleId);
@@ -55,19 +74,24 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
 
     protected function createComponentSheduleForm(): Form
     {
-        $user = $this->getUser();
-        $uid = $user->getId();
+        if (!$this->getUser()->isInRole('admin')) {
+			$this->redirect('Panel:index');
+		}
 
         $form = new Form;
 
+        $members = $this->database
+            ->table('users')
+            ->fetchPairs('id', 'first_name');
+        $form->addSelect('user_id', 'User:', $members);
+
         $elements = $this->database
             ->table('elements')
-            ->fetchPairs('id', 'title');
-        
-        
-        $form->addSelect('element_id', 'Element:', $elements)
-            ->setDefaultValue('3');
+            ->fetchPairs('id', 'title');        
+        $form->addSelect('element_id', 'Element:', $elements);
 
+        $form->addText('dosage', 'Дозировка:')
+            ->setRequired('Пожалуйста, заполните дозировку:');
 
         $form->addDate('date_from', 'Date from:')
             ->setFormat('Y-m-d')
@@ -77,7 +101,19 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
             ->setFormat('Y-m-d')
             ->setRequired('Пожалуйста, выберите дату до:');
 
-        $form->addHidden('user_id', $uid);
+        $start_reminder_options = [
+            '1' => 'за день',
+            '0' => 'в день приема',
+        ];
+        $form->addSelect('start_reminder', 'Напомнить о приеме:', $start_reminder_options)
+            ->setDefaultValue('1');
+
+
+        $form->addText('receipt_time', 'Время приема:')
+            ->setRequired('Пожалуйста, выберите дату от:');
+
+        $form->addCheckbox('published', 'Опубликовать:')
+            ->setDefaultValue(true);
 
 
         $form->addSubmit('send', 'Save and public');
@@ -111,6 +147,10 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
 
     public function actionDelete(int $sheduleId )
     {
+        if (!$this->getUser()->isInRole('admin')) {
+			$this->redirect('Panel:index');
+		}
+        
         $form = new Form;
         try {
                 $this->flashMessage("Recipe Category Deleted", 'success');

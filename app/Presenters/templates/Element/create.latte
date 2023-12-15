@@ -1,0 +1,47 @@
+{block content}
+
+<section class="element-create">
+	<div class="container">
+        <h1 n:block="title">Создать элемент</h1>
+
+        <form n:name=elementForm class=form>
+
+            <div class="label_block">
+                <label for="title" n:name=title class="label">Название</label>
+            </div>
+            <div>
+                <input id="title" n:name=title class="input">
+            </div>
+
+            <div class="label_block">
+                <label for="title_en" n:name=title_en class="label">Название англ.:</label>
+            </div>
+            <div>
+                <input id="title_en" n:name=title_en class="input">
+            </div>
+
+            <div class="label_block">
+                <label for="summernote" n:name=description class="label">Описание:</label>
+            </div>
+            <div class="summernote__block">
+                <textarea id="summernote" n:name=description class="input" rows="5"></textarea>
+            </div>
+
+            <div class="label_block">
+                <label for="buy_reminder" n:name=buy_reminder class="label">Напомнить о покупке:</label>
+            </div>
+            <div>
+                <select id="buy_reminder" n:name=buy_reminder class="input"></select>
+            </div>
+           
+            <div class="mt-2">
+                <input n:name=send class="custom_button button_success">
+            </div>
+        </form>
+
+        <!-- {control elementForm} -->
+    </div>
+</section>
+
+
+{/block}

@@ -6,6 +6,7 @@ use Nette\Application\UI\Form;
 use App\Model\LocalAuthenticator;
 use Nette\Mail\Message;
 use Nette\Mail\Mailer;
+use Nette\Neon\Neon;
 
 
 
@@ -59,12 +60,12 @@ final class SignPresenter extends Nette\Application\UI\Presenter
         $form->addEmail('email', 'Email:')
 			->setRequired('Пожалуйста, введите ваше email.');
 
-        $form->addText('phone', 'Телефон:');
+        $form->addText('phone', 'Телефон:')
+            ->setHtmlType('tel');
 
-        // $form->addDate('date', 'Date:')
-        //     ->setFormat('Y-m-d')
-        //     ->setRequired('Пожалуйста, выберите дату рождения.');
-
+        $form->addDate('birth_date', 'Date:')
+            ->setFormat('Y-m-d')
+            ->setRequired('Пожалуйста, выберите дату рождения.');
 
         $gender = [
             'm' => 'мужской',
@@ -80,22 +81,30 @@ final class SignPresenter extends Nette\Application\UI\Presenter
 		$form->addSubmit('send', 'Submit');
 
 		$form->onSuccess[] = [$this, 'signUpFormSucceeded'];
-		return $form;
+
+        return $form;
 	}
 
     public function signUpFormSucceeded(array $data): void
     {
-        $this->authentificator->createUser($data['first_name'], $data['last_name'], $data['email'], $data['phone'], $data['role'] = 'member', $data['gender'], $data['password']);
+        if (true) {
+            $this->authentificator->createUser($data['first_name'], $data['last_name'], $data['email'], $data['phone'], $data['birth_date'], $data['role'] = 'member', $data['gender'], $data['password']);
 
-        $mail = new Message;
-        $mail->setFrom('vds.email.sender@yandex.ru')
-            ->addTo('pivannikov@yandex.ru')
-            ->setSubject('Подтверждение регистрации')
-            ->setBody("Здравствуйте. ВЫ успешно зарегистрированы на портале.");
-        // $this->mailer->send($mail);
+            $mail = new Message;
+            $mail->setFrom('vds.email.sender@yandex.ru')
+                ->addTo('pivannikov@yandex.ru')
+                ->setSubject('Подтверждение регистрации')
+                ->setBody("Здравствуйте. ВЫ успешно зарегистрированы на портале.");
+            $this->mailer->send($mail);
+    
+            $this->flashMessage('Wecome! You are all signed up!');
+            $this->redirect('Panel:index');
+        } else {
+            $this->flashMessage('token error');
+            $this->redirect('Panel:index');
+        }
 
-        $this->flashMessage('Wecome! You are all signed up!');
-        $this->redirect('Panel:index');
+        
     }
 
 	public function injectMailer(Mailer $mailer)

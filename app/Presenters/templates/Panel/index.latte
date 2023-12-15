@@ -1,119 +1,136 @@
 {block content}
-	<h1 n:block="title">Мой блог</h1>
 
-	<table class="iksweb">
-        <thead>
-            <tr>
-            <th>user_id</th>
-            <th>element_id</th>
-            <th>date_from</th>
-            <th>date_to</th>
-            <th>edit</th>
-            <th>delete</th>
-            </tr>
-        </thead>
-		<tbody>
-			<tr n:foreach="$shedule as $item" class="element__row-{$item->element->id}">
-				<td>{$item->user_id}</td>
-				<td>{$item->element->title}</td>
-				<td class="element__td_date_from-{$item->element->id} elements__td">{$item->date_from|date:'j.n.Y'}</td>
-				<td class="element__td_date_to-{$item->element->id} elements__td">{$item->date_to|date:'j.n.Y'}</td>
-				<td><a n:href="Panel:edit $item->id"><button>edit</button></a></td>
-				<!-- <td><a n:href="Panel:delete $item->id"><button>delete</button></a></td> -->
-				<td>
-					<div class="css-modal-checkbox-container">
-						<label for="css-modal-checkbox" class="css-modal-checkbox">delete</label>
+<section class="shedule">
+	<div class="container">
+		<h1 n:block="title" class="mt-2">Расписание для {$user->identity->name}</h1>
+
+		<a n:if="$user->isInRole('admin')" n:href="Panel:create">
+			<button class="custom_button button_default mt-2 mb-1">Добавить запись</button>
+		</a>
+
+        <table class="shedule__table">
+			<thead>
+				<tr>
+					<!-- <th>№</th> -->
+					<th>Имя</th>
+					<th>Название элемента</th>
+					<th>Дозировка</th>
+					<th>Дата начала</th>
+					<th>Дата окончания</th>
+					<th>Время приема</th>
+					<th>Напоминание о приеме</th>
+					<th n:if="$user->isInRole('admin')">Редактировать</th>
+					<th n:if="$user->isInRole('admin')">Удалить</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr n:foreach="$shedule as $item" class="element__row-{$item->element->id}">
+					<!-- <td>{$item->user_id}</td> -->
+					<td>{$item->user->first_name} {$item->user->last_name}</td>
+					<td>{$item->element->title}</td>
+					<td>{$item->dosage}</td>
+					<td>{$item->date_from|date:'j.n.Y'}</td>
+					<td>{$item->date_to|date:'j.n.Y'}</td>
+					<td>{$item->receipt_time}</td>
+					<td>{$item->start_reminder}</td>
+					<td n:if="$user->isInRole('admin')">
+						<a n:href="Panel:edit $item->id">
+							<button class="custom_button button_success">edit</button>
+						</a>
+					</td>
+
+					<td n:if="$user->isInRole('admin')">
+						<a href="#modal-one" class="btn-modal custom_button button_danger">delete</a>
+					</td>
+
+					<!-- Modal window -->  
+					<div class="modal" id="modal-one" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal__header">
+								Вы действительно хотите удалить?
+							</div>
+							<div class="modal__body">
+								<a n:href="Panel:delete $item->id" class="btn-delete">
+									<button class="custom_button button_success">delete</button>
+								</a>
+								<a href="#close" class="btn-close" aria-hidden="true">
+									<button class="custom_button button_default">cancel</button>
+								</a>
+							</div>
+						</div>
 					</div>
-				</td>
+					<!-- Modal window /-->
+					
 
-				<!-- Модальное окно -->    
-				<input type="checkbox" id="css-modal-checkbox" />    
-				<div class="cmc">
-					<div class="cmt">
-						<a n:href="Panel:delete $item->id"><button>delete</button></a>
-					</div>
-					<label for="css-modal-checkbox" class="css-modal-close"></label>
-				</div>
+				</tr>
+			</tbody>
+		</table>
 
-			</tr>
-		</tbody>
-	</table>
+		<!-- <table class="table table-bordered">
+			<thead>
+				<tr>
+				<th scope="col">el/day</th>
+				<th>1</th>
+				<th>2</th>
+				<th>3</th>
+				<th>4</th>
+				<th>5</th>
+				<th>6</th>
+				<th>7</th>
+				<th>8</th>
+				<th>9</th>
+				<th>10</th>
+				<th>11</th>
+				<th>12</th>
+				<th>13</th>
+				<th>14</th>
+				<th>15</th>
+				<th>16</th>
+				<th>17</th>
+				<th>18</th>
+				<th>19</th>
+				<th>20</th>
+				<th>21</th>
+				<th>22</th>
+				<th>23</th>
+				<th>24</th>
+				<th>25</th>
+				<th>26</th>
+				<th>27</th>
+				<th>28</th>
+				<th>29</th>
+				<th>30</th>
+				<th>31</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr n:foreach="$shedule as $item" class="">
 
+					<th>{$item->element->title}</th>
 
- 
-
- 
-
-
-
-<a n:href="Admin:index" n:if="$user->isLoggedIn() && $user->isInRole('admin')">Admin panel</a>
-<a n:href="Panel:create">Создать запись</a>
-
-<table class="table table-bordered">
-	<thead>
-		<tr>
-		<th scope="col">el/day</th>
-		<th>1</th>
-		<th>2</th>
-		<th>3</th>
-		<th>4</th>
-		<th>5</th>
-		<th>6</th>
-		<th>7</th>
-		<th>8</th>
-		<th>9</th>
-		<th>10</th>
-		<th>11</th>
-		<th>12</th>
-		<th>13</th>
-		<th>14</th>
-		<th>15</th>
-		<th>16</th>
-		<th>17</th>
-		<th>18</th>
-		<th>19</th>
-		<th>20</th>
-		<th>21</th>
-		<th>22</th>
-		<th>23</th>
-		<th>24</th>
-		<th>25</th>
-		<th>26</th>
-		<th>27</th>
-		<th>28</th>
-		<th>29</th>
-		<th>30</th>
-		<th>31</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr n:foreach="$shedule as $item" class="">
-			<th>{$item->element->title}</th>
-
-			{var $month_days = ['1.11.2023','2.11.2023','3.11.2023', '4.11.2023']}
-			
-			<!-- <td id="td_{$item->date_to|date:'j_n_Y'}"></td> -->
-			{foreach $month_days as $day_number}
-				<td id="{$day_number}"
-					{if ($item->date_from|date:'j.m.Y') <= $day_number && ($item->date_to|date:'j.m.Y') >= $day_number }
-						style="background-color: red;"				
-					{/if}
-				>{$item->date_from|date:'j.m.Y'} | {$day_number}</td>
+					{var $month_days = []}
+					{var $start = strtotime('01-11-2023 00:00:00')}
+					{var $end = strtotime('30-11-2023 00:00:00')}
+					{for $i=$start;$i<$end;$i+=86400}
+						{var $month_days[] = date('d.m.Y',$i)}
+					{/for}
+					
+					{foreach $month_days as $day_number}
+						<td id="{$day_number}"
+							{if $item->date_from <= new DateTime($day_number) && $item->date_to >= new DateTime($day_number)}
+								style="background-color: red;"				
+							{/if}
+						></td>
+						
+					{/foreach}
+					
+					
+					
+				</tr>
 				
-			{/foreach}
-			
-			
-			
-		</tr>
-		
-	</tbody>
-</table>
-
-<script>
-	// let td_item = document.getElementById('td_3_11_2023');
-	// if (td_item.id == 'td_3_11_2023') {
-	// 	td_item.style.backgroundColor = 'red';
-	// }
-</script>
+			</tbody>
+		</table> -->
+	</div>
+</section>
 
 {/block}

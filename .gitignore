@@ -2,3 +2,5 @@ config/local.neon
 /log/*
 /temp/*
 /vendor/
+/bin/emailCron.php--
+/Console/EmailCronCommand.php--
