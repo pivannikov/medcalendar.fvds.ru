@@ -2,68 +2,69 @@
 
 <section class="element-create">
 	<div class="container">
-        <h1 n:block="title">Редактировать запись</h1>
 
-        <form n:name=sheduleForm class=form>
+        <h1 n:block="title">Редактировать запись</h1>
+        
+        <form n:name=sheduleForm class=form>  
+
             <div class="label_block">
                 <label for="user_id" n:name=user_id class="label">Пользователь:</label>
             </div>
             <div>
-                <select n:name="user_id" id="user_id" class="select"></select>
+                <select n:name="user_id" id="user_id" class="input select_input"></select>
             </div>
 
             <div class="label_block">
                 <label for="element_id" n:name=element_id class="label">Элемент:</label>
             </div>
             <div>
-                <select n:name="element_id" id="element_id" class="select"></select>
+                <select n:name="element_id" id="element_id" class="input select_input"></select>
             </div>
 
             <div class="label_block">
                 <label for="dosage" n:name=dosage class="label">Дозировка:</label>
             </div>
             <div>
-                <input id="dosage" n:name=dosage class="input">
+                <input id="dosage" n:name=dosage class="input text_input">
             </div>
 
             <div class="label_block">
                 <label for="date_from" n:name=date_from class="label">Дата начала:</label>
             </div>
             <div>
-                <input id="date_from" n:name=date_from class="input">
+                <input id="date_from" n:name=date_from class="input date_input">
             </div>
 
             <div class="label_block">
                 <label for="date_to" n:name=date_to class="label">Дата окончания:</label>
             </div>
             <div>
-                <input id="date_to" n:name=date_to class="input">
+                <input id="date_to" n:name=date_to class="input date_input">
             </div>
-
+            
             <div class="label_block">
                 <label for="receipt_time" n:name=receipt_time class="label">Время приема:</label>
             </div>
             <div>
-                <input id="receipt_time" n:name=receipt_time class="input">
+                <input id="receipt_time" n:name=receipt_time class="input text_input">
             </div>
 
             <div class="label_block">
                 <label for="start_reminder" n:name=start_reminder class="label">Напомнить о приеме:</label>
             </div>
             <div>
-                <select id="start_reminder" n:name=start_reminder class="input"></select>
+                <select id="start_reminder" n:name=start_reminder class="input select_input"></select>
             </div>
 
             <div class="label_block">
                 <label for="published" n:name=published class="label">Опубликовать:</label>
-            </div>
-            <div>
                 <input id="published" n:name=published class="input">
             </div>
-           
-            <div>
+        
+            <div class="mb-3 mt-2">
                 <input n:name=send class="custom_button button_success">
             </div>
+
         </form>
 
         <!-- {control sheduleForm} -->

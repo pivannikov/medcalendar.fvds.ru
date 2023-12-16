@@ -19,16 +19,14 @@ final class RouterFactory
 		$router->addRoute('sign-up', 'Sign:up');
 		$router->addRoute('sign-out', 'Sign:out');
 
-		$router->addRoute('panel/index', 'Panel:index');
-		$router->addRoute('panel/create', 'Panel:create');
-		$router->addRoute('panel/edit[/<id \d+>]', 'Panel:edit');
-		$router->addRoute('panel/delete/[/<id \d+>]', 'Panel:delete');
+		$router->addRoute('panel/index', 'Panel:index')
+			->addRoute('panel/create', 'Panel:create')
+			->addRoute('panel/edit[/<id \d+>]', 'Panel:edit')
+			->addRoute('panel/delete/[/<id \d+>]', 'Panel:delete');
 		
-		$router->withPath('admin')
-			->addRoute('panel/index', 'Admin:index')
-			->addRoute('users/index', 'User:index')
+		$router->addRoute('user/index', 'User:index')
 			->addRoute('user/show[/<id \d+>]', 'User:show')
-			->addRoute('elements/index', 'Element:index')
+			->addRoute('element/index', 'Element:index')
 			->addRoute('element/create', 'Element:create')
 			->addRoute('element/edit[/<id \d+>]', 'Element:edit')
 			->addRoute('element/delete[/<id \d+>]', 'Element:delete');

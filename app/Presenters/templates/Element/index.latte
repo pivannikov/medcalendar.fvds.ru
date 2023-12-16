@@ -2,10 +2,10 @@
 
 <section class="elements">
 	<div class="container">
-		<h1 n:block="title" class="mt-2">Элементы</h1>
+		<h1 n:block="title" class="mb-3 mt-1">Элементы</h1>
 
 		<a n:if="$user->isInRole('admin')" n:href="Element:create">
-			<button class="custom_button button_default mt-2 mb-1">Добавить элемент</button>
+			<button class="custom_button button_default mb-3">Добавить элемент</button>
 		</a>
 
 		<table class="elements__table">
@@ -41,12 +41,28 @@
 							<button class="custom_button button_success">edit</button>
 						</a>
 					</td>
-					<td>
-						<button class="custom_button button_danger">delete</button>
+					
+					<td n:if="$user->isInRole('admin')">
+						<a href="#modal-one" class="btn-modal custom_button button_danger">delete</a>
 					</td>
 
-					<!-- Модальное окно -->    
-					
+					<!-- Modal window -->  
+					<div class="modal" id="modal-one" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal__header">
+								Вы действительно хотите удалить?
+							</div>
+							<div class="modal__body">
+								<a n:href="Element:delete $element->id" class="btn-delete">
+									<button class="custom_button button_danger">delete</button>
+								</a>
+								<a href="#close" class="btn-close" aria-hidden="true">
+									<button class="custom_button button_default">cancel</button>
+								</a>
+							</div>
+						</div>
+					</div>
+					<!-- Modal window /-->
 					
 				</tr>
 			</tbody>

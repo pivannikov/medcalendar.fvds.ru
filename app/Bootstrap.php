@@ -15,7 +15,6 @@ class Bootstrap
 		$appDir = dirname(__DIR__);
 
 		$configurator->setDebugMode(false); 
-		// $configurator->setDebugMode('secret@127.0.0.1'); 
 		
 		$configurator->enableTracy($appDir . '/log');
 

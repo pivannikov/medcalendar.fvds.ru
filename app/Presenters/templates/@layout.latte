@@ -28,15 +28,14 @@
 				<nav class="header__nav">
 					
 					<div class="header__menu">
-						<a n:href="Panel:index" class="nav__link">Мои записи</a>
-						<a n:if="$user->isInRole('admin')" n:href="Admin:index" class="nav__link">Все записи</a>
-						<a n:if="$user->isInRole('admin')" n:href="Element:index" class="nav__link">Элементы</a>
-						<a n:if="$user->isInRole('admin')" n:href="User:index" class="nav__link">Пользователи</a>
+						<a n:if="$user->isInRole('admin')" n:href="Panel:index" class="nav__link">Главная</a>
+						<a n:if="$user->isInRole('admin')" n:href="Element:index" class="nav__link">Все элементы</a>
+						<a n:if="$user->isInRole('admin')" n:href="User:index" class="nav__link">Все пользователи</a>
 						
 					</div>
 					<div class="sign__block">
 						{if $user->isLoggedIn()}
-							<a n:href="Panel:index" class="nav__link">Hello, user</a>
+							<a n:href="Panel:index" class="nav__link">Hello, {$user->identity->name}</a>
 							<a n:href="Sign:out" class="nav__link">Выйти</a>
 						{/if}
 					</div>

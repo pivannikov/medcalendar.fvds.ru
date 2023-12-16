@@ -37,7 +37,6 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
 		if (!$this->getUser()->isLoggedIn()) {
 			$this->redirect('Sign:in');
 		}
-		
 	}
 
 
@@ -45,10 +44,22 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
     {        
         $user = $this->getUser();
 
-        $this->template->shedule = $this->database
-            ->table('shedule')
-            ->where('user_id', $user->getId())
-            ->limit(5);
+        $this->template->user_name = $this->database
+            ->table('users')
+            ->get($user->getId());
+
+        if (!$this->getUser()->isInRole('admin')) {
+
+            $this->template->shedule = $this->database
+                ->table('shedule')
+                ->where('user_id', $user->getId())
+                ->limit(5);
+		} else {
+
+            $this->template->shedule = $this->database
+                ->table('shedule')
+                ->limit(50);
+        }
 
     }
 
@@ -138,7 +149,7 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
         }
 
         $this->flashMessage('Пост опубликован', 'success');
-        $this->redirect('Panel:index');
+        $this->redirect('Admin:index');
 
     }
 

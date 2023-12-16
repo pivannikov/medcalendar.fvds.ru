@@ -15,6 +15,9 @@ body {
 html {
     font-size: 16px;
 }
+a {
+    text-decoration: none;
+}
 
 h1, h2, h3, h4, h5, h6 {
 	margin: 0;
@@ -118,16 +121,29 @@ p {
 .input {
     border: 1px solid #e0e0e0;
     padding: 10px;
+    background-color: #fff;
 }
+.text_input {
+    width: 40%;
+}
+.select_input {
+    width: 40%;
+    padding: 10px;
+    font-size: 15px;
+}
+.summernote__block {
+    max-width: 40%;
+}
+.date_input {
+    width: 10%;
+}
+
+
 .fieldset {
     border: 1px solid #e0e0e0;
     padding: 10px;
 }
-.select {
-    border: 1px solid #e0e0e0;
-    padding: 10px;
-    background-color: #fff;
-}
+
 .label_block {
     padding: 27px 0 10px 0;
 }
@@ -179,18 +195,7 @@ table {
     border-collapse: collapse;
 }
 
-.summernote__block {
-    max-width: 20%;
-}
 
-.form__columns {
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-}
-.form__column-one {
-    margin-right: 5rem;
-}
 
 
 

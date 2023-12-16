@@ -2,7 +2,7 @@
 
 <section class="shedule">
 	<div class="container">
-		<h1 n:block="title">Все пользователи</h1>
+		<h1 n:block="title" class="mb-3 mt-1">Все пользователи</h1>
 		<table class="users__table">
 			<thead>
 				<tr>
@@ -17,8 +17,8 @@
 			</thead>
 			<tbody>
 				<tr n:foreach="$users as $item" class="">
-					<td><a n:href="User:show $item->id">{$item->id}</a></td>
-					<td>{$item->first_name} {$item->last_name}</td>
+					<td>{$item->id}</td>
+					<td><b><a n:href="User:show $item->id">{$item->first_name} {$item->last_name}</a></b></td>
 					<td>{$item->email}</td>
 					<td>{$item->phone}</td>
 					<td>{$item->birth_date}</td>
