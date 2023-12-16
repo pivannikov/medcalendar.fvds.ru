@@ -90,8 +90,7 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
             ->fetchPairs('id', 'title');        
         $form->addSelect('element_id', 'Element:', $elements);
 
-        $form->addText('dosage', 'Дозировка:')
-            ->setRequired('Пожалуйста, заполните дозировку:');
+        $form->addText('dosage', 'Дозировка:');
 
         $form->addDate('date_from', 'Date from:')
             ->setFormat('Y-m-d')
@@ -109,8 +108,7 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
             ->setDefaultValue('1');
 
 
-        $form->addText('receipt_time', 'Время приема:')
-            ->setRequired('Пожалуйста, выберите дату от:');
+        $form->addText('receipt_time', 'Время приема:');
 
         $form->addCheckbox('published', 'Опубликовать:')
             ->setDefaultValue(true);
