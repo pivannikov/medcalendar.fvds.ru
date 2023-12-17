@@ -52,13 +52,11 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
 
             $this->template->shedule = $this->database
                 ->table('shedule')
-                ->where('user_id', $user->getId())
-                ->limit(5);
+                ->where('user_id', $user->getId());
 		} else {
 
             $this->template->shedule = $this->database
-                ->table('shedule')
-                ->limit(50);
+                ->table('shedule');
         }
 
     }
@@ -91,9 +89,13 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
 
         $form = new Form;
 
-        $members = $this->database
+        $members_raw = $this->database
             ->table('users')
-            ->fetchPairs('id', 'first_name');
+            ->fetchPairs('id');
+
+        foreach ($members_raw as $key => $member) {
+            $members[$member->id] = $member->first_name . ' ' . $member->last_name;
+        }
         $form->addSelect('user_id', 'User:', $members);
 
         $elements = $this->database
@@ -148,8 +150,8 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
                 ->insert($data);
         }
 
-        $this->flashMessage('Пост опубликован', 'success');
-        $this->redirect('Admin:index');
+        $this->flashMessage('Запись добавлена', 'success');
+        $this->redirect('Panel:index');
 
     }
 

@@ -13,6 +13,7 @@ use Nette\Mail\Mailer;
 use Nette\Database\Explorer;
 use Latte\Engine;
 use Nette\Database\Table\Selection;
+use App\Model\VariablesStore;
 
 final class EmailCronCommand extends Command
 {
@@ -22,8 +23,9 @@ final class EmailCronCommand extends Command
 
     public function __construct(
 			Mailer $mailer,
-			private Explorer $database
-		)  {
+			private Explorer $database,
+			private VariablesStore $variablesStore
+	)  {
 		parent::__construct();
         $this->mailer = $mailer;
     }
@@ -72,6 +74,8 @@ final class EmailCronCommand extends Command
 	{
 
 		foreach ($schedules_data as $schedule_item) {
+
+
             $first_name = $schedule_item->user->first_name;
             $last_name = $schedule_item->user->last_name;
             $email = $schedule_item->user->email;
@@ -86,7 +90,7 @@ final class EmailCronCommand extends Command
 				'element_dosage' => $schedule_item->dosage,
 			];
 			
-			$this->sendMail($email, $admin_email = 'pivannikov@yandex.ru', $subject, $email_template, $template_params);
+			$this->sendMail($email, $admin_email = $this->variablesStore->admin_email, $subject, $email_template, $template_params);
         }
 	}
 
@@ -94,7 +98,7 @@ final class EmailCronCommand extends Command
 	{
 
 		foreach ($buy_reminders as $item) {
-			$email = 'pivannikov@yandex.ru';
+			$email = $this->variablesStore->admin_email;
 
 			$subject = 'Напоминание о закупке: ' . ucfirst($item['element_title']);
 			$template_params = [
@@ -103,7 +107,7 @@ final class EmailCronCommand extends Command
 				'date_from' => $item['date_from'],
 			];
 			
-			$this->sendMail($email, $admin_email = 'pivannikov@yandex.ru', $subject, $email_template, $template_params);
+			$this->sendMail($email, $admin_email = $this->variablesStore->admin_email, $subject, $email_template, $template_params);
         }
 	}
 
@@ -115,7 +119,7 @@ final class EmailCronCommand extends Command
 
 		if ($email !== $admin_email) {
 
-			$mail->setFrom('vds.email.sender@yandex.ru')
+			$mail->setFrom($this->variablesStore->server_sender_email)
 				->addTo($email)
 				->addCc($admin_email)
 				->setSubject($subject)
@@ -125,7 +129,7 @@ final class EmailCronCommand extends Command
 
 		} else {
 
-			$mail->setFrom('vds.email.sender@yandex.ru')
+			$mail->setFrom($this->variablesStore->server_sender_email)
 				->addTo($email)
 				->setSubject($subject)
 				// ->setBody($text);

@@ -111,7 +111,7 @@ final class ElementPresenter extends Nette\Application\UI\Presenter
                 ->insert($data);
         }
 
-        $this->flashMessage('Пост опубликован', 'success');
+        $this->flashMessage('Элемент добавлен', 'success');
         $this->redirect('Element:index');
 
     }

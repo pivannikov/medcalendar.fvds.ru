@@ -28,7 +28,7 @@ class LocalAuthenticator implements Nette\Security\Authenticator
 
 		return new SimpleIdentity(
 			$row->id,
-			$row->role, // или массив ролей
+			$row->role,
 			['name' => $row->email],
 		);
 	}

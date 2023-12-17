@@ -2,6 +2,13 @@ services:
 	- App\Router\RouterFactory::createRouter
 	- App\Model\LocalAuthenticator
 	- App\Console\EmailCronCommand
+	- App\Model\VariablesStore(
+		signup_token: %signUpToken%,
+		google_tag: %googleTag%,
+		server_sender_email: %serverSenderEmail%,
+		system_email: %systemEmail%,
+		admin_email: %adminEmail%,
+	)
 
 
 

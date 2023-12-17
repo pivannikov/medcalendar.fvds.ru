@@ -33,8 +33,7 @@ final class UserPresenter extends Nette\Application\UI\Presenter
     {
         
         $this->template->users = $this->database
-            ->table('users')
-            ->limit(5);
+            ->table('users');
     }
 
     public function renderShow(int $memberId): void
@@ -56,7 +55,7 @@ final class UserPresenter extends Nette\Application\UI\Presenter
 			->where('id', $sheduleId);
 
         if (!$shedule) {
-            $this->error('Пост не найден');
+            $this->error('Запись не найдена');
         }
 
         $this->getComponent('sheduleForm')
@@ -113,7 +112,7 @@ final class UserPresenter extends Nette\Application\UI\Presenter
                 ->insert($data);
         }
 
-        $this->flashMessage('Пост опубликован', 'success');
+        $this->flashMessage('Запись добавлена', 'success');
         $this->redirect('Panel:index');
 
     }

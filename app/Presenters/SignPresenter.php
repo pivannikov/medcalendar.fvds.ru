@@ -4,6 +4,7 @@ namespace App\Presenters;
 use Nette;
 use Nette\Application\UI\Form;
 use App\Model\LocalAuthenticator;
+use App\Model\VariablesStore;
 use Nette\Mail\Message;
 use Nette\Mail\Mailer;
 use Nette\Neon\Neon;
@@ -12,12 +13,14 @@ use Nette\Neon\Neon;
 
 final class SignPresenter extends Nette\Application\UI\Presenter
 {
-    private $authentificator;
     private $mailer;
 
-    public function __construct(LocalAuthenticator $authentificator)
+
+    public function __construct(
+        private LocalAuthenticator $authentificator, 
+        private VariablesStore $variablesStore
+    )
     {
-        $this->authentificator = $authentificator;
     }
 
 	protected function createComponentSignInForm(): Form
@@ -39,7 +42,7 @@ final class SignPresenter extends Nette\Application\UI\Presenter
     {
         try {
             $this->getUser()->login($data->email, $data->password);
-            $this->flashMessage('Wecome! You are all signed in!');
+            $this->flashMessage('Вы успешно авторизованы!');
             $this->redirect('Panel:index');
 
         } catch (Nette\Security\AuthenticationException $e) {
@@ -78,6 +81,9 @@ final class SignPresenter extends Nette\Application\UI\Presenter
 		$form->addPassword('password', 'Password:')
 			->setRequired('Пожалуйста, введите ваш пароль.');
 
+        $form->addInteger('signup_token', 'Secret key:')
+            ->setRequired('Пожалуйста, введите "secret key" для успешной регистрации.');
+
 		$form->addSubmit('send', 'Submit');
 
 		$form->onSuccess[] = [$this, 'signUpFormSucceeded'];
@@ -87,20 +93,30 @@ final class SignPresenter extends Nette\Application\UI\Presenter
 
     public function signUpFormSucceeded(array $data): void
     {
-        if (true) {
+        if ($data['signup_token'] == $this->variablesStore->signup_token) {
+
             $this->authentificator->createUser($data['first_name'], $data['last_name'], $data['email'], $data['phone'], $data['birth_date'], $data['role'] = 'member', $data['gender'], $data['password']);
 
             $mail = new Message;
-            $mail->setFrom('vds.email.sender@yandex.ru')
-                ->addTo('pivannikov@yandex.ru')
+            $mail->setFrom($this->variablesStore->server_sender_email)
+                ->addTo($data['email'])
                 ->setSubject('Подтверждение регистрации')
-                ->setBody("Здравствуйте. ВЫ успешно зарегистрированы на портале.");
+                ->setBody("Здравствуйте, вы успешно зарегистрированы на портале");
             $this->mailer->send($mail);
+            
+            $system_mail = new Message;
+            $system_mail->setFrom($this->variablesStore->server_sender_email)
+                ->addTo($this->variablesStore->system_email)
+                ->setSubject('Новый пользователь')
+                ->setBody("На портале новый пользователь: " . $data['email']);
+            $this->mailer->send($system_mail);
     
-            $this->flashMessage('Wecome! You are all signed up!');
+            $this->flashMessage('Здравствуйте, вы успешно зарегистрированы!');
             $this->redirect('Panel:index');
+
         } else {
-            $this->flashMessage('token error');
+
+            $this->flashMessage('Secret key error...');
             $this->redirect('Panel:index');
         }
 
