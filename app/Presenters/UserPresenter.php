@@ -22,22 +22,36 @@ final class UserPresenter extends Nette\Application\UI\Presenter
 		if (!$this->getUser()->isLoggedIn()) {
 			$this->redirect('Sign:in');
 		}
-		if ($this->getUser()->isLoggedIn() && !$this->getUser()->isInRole('admin')) {
-			$this->redirect('User:index');
-		}
+		// if ($this->getUser()->isLoggedIn() && !$this->getUser()->isInRole('admin')) {
+		// 	$this->redirect('User:index');
+		// }
+
 		
 	}
 
 
     public function renderIndex(): void
     {
+        $user = $this->getUser();
+
+        if (!$this->getUser()->isInRole('admin')) {
+
+            $this->template->users = $this->database
+                ->table('users')
+                ->where('id', $user->getId());
+        } else {
+
+            $this->template->users = $this->database
+                ->table('users');
+        }
         
-        $this->template->users = $this->database
-            ->table('users');
     }
 
     public function renderShow(int $memberId): void
     {
+        if ($this->getUser()->isLoggedIn() && !$this->getUser()->isInRole('admin')) {
+			$this->redirect('User:index');
+		}
 
         $this->template->shedules = $this->database
             ->table('shedule')
@@ -51,6 +65,10 @@ final class UserPresenter extends Nette\Application\UI\Presenter
 
     public function renderEdit(int $sheduleId): void
     {
+        if ($this->getUser()->isLoggedIn() && !$this->getUser()->isInRole('admin')) {
+			$this->redirect('User:index');
+		}
+
         $shedule = $this->database
             ->table('shedule')
 			->where('id', $sheduleId);
@@ -66,6 +84,10 @@ final class UserPresenter extends Nette\Application\UI\Presenter
 
     protected function createComponentSheduleForm(): Form
     {
+        if ($this->getUser()->isLoggedIn() && !$this->getUser()->isInRole('admin')) {
+			$this->redirect('User:index');
+		}
+
         $user = $this->getUser();
         $uid = $user->getId();
 
@@ -121,6 +143,10 @@ final class UserPresenter extends Nette\Application\UI\Presenter
 
     public function actionDelete(int $sheduleId )
     {
+        if ($this->getUser()->isLoggedIn() && !$this->getUser()->isInRole('admin')) {
+			$this->redirect('User:index');
+		}
+        
         $form = new Form;
         try {
                 $this->flashMessage("Recipe Category Deleted", 'success');

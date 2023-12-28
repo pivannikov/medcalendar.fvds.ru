@@ -9,6 +9,7 @@ use Nette\Application\UI\Form;
 use Nette\Neon\Neon;
 
 
+
 final class PanelPresenter extends Nette\Application\UI\Presenter
 {
     // private Nette\DI\Container $context;
@@ -151,7 +152,7 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
         }
 
         $this->flashMessage('Запись добавлена', 'success');
-        $this->redirect('User:index');
+        $this->redirect('User:show', ['memberId' => $data['user_id']]);
 
     }
 

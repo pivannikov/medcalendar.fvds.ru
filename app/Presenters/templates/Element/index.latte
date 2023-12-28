@@ -11,7 +11,6 @@
 		<table class="elements__table">
 			<thead>
 				<tr>
-					<th>id</th>
 					<th>Название элемента</th>
 					<th>Название англ.</th>
 					<th>Описание</th>
@@ -22,8 +21,6 @@
 			</thead>
 			<tbody>
 				<tr n:foreach="$elements as $element" class="">
-					{dump $element}
-					<td>{$element->id}</td>
 					<td>{$element->title}</td>
 					<td>{$element->title_en}</td>
 					<td>{$element->description|noescape}</td>

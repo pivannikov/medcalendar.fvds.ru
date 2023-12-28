@@ -4,21 +4,21 @@
 	<div class="container">
 		<h1 n:block="title" class="mb-3 mt-1">Пользователь: {$member->first_name} {$member->last_name}</h1>
 
-		<a n:if="$user->isInRole('admin')" n:href="Panel:create">
+        <a n:if="$user->isInRole('admin')" n:href="Panel:create">
 			<button class="custom_button button_default mb-3">Добавить запись</button>
 		</a>
 
 		<table class="users__table">
 			<thead>
 				<tr>
-					<th>Название элемента</th>
-					<th>Дозировка</th>
-					<th>Дата начала</th>
-					<th>Дата окончания</th>
-					<th>Время приема</th>
-					<th>Напоминание за сколько дней</th>
-					<th>Редактировать</th>
-					<th>Удалить</th>
+					<th class="col-1">Название элемента</th>
+					<th class="col-1">Дозировка</th>
+					<th class="col-4">Дата начала</th>
+					<th class="col-1">Дата окончания</th>
+					<th class="col-1">Время приема</th>
+					<th class="col-1">Напоминание за сколько дней</th>
+					<th class="col-1">Редактировать</th>
+					<th class="col-1">Удалить</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -32,20 +32,20 @@
                         <tr class="">
                     {/if}
                     
-                        <td>{$item->element->title}</td>
-                        <td>{$item->dosage}</td>
-                        <td class="schedule_date">{$item->date_from|date:'j. n. Y'}</td>
-                        <td class="schedule_date">{$item->date_to|date:'j. n. Y'}</td>
-                        <td>{$item->receipt_time}</td>
-                        <td>{$item->start_reminder}</td>
+                        <td class="col-1">{$item->element->title}</td>
+                        <td class="col-1">{$item->dosage}</td>
+                        <td class="col-4 schedule_date">{$item->date_from|date:'j. n. Y'}</td>
+                        <td class="col-1 schedule_date">{$item->date_to|date:'j. n. Y'}</td>
+                        <td class="col-1">{$item->receipt_time}</td>
+                        <td class="col-1">{$item->start_reminder}</td>
 
-                        <td>
+                        <td class="col-1">
                             <a n:href="Panel:edit $item->id">
                                 <button class="custom_button button_success">edit</button>
                             </a>
                         </td>
 
-                        <td>
+                        <td class="col-1">
                             <a href="#modal-{$item->id}" class="btn-modal custom_button button_danger">delete</a>
                         </td>
 
