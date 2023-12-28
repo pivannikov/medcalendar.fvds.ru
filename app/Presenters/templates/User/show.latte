@@ -24,18 +24,18 @@
 			<tbody>
                 {foreach $shedules as $item}
 
-                {if $item->date_to < new DateTime('today midnight')}
-                        <tr class="" style="opacity: 0.3;">
+                    {if $item->date_to < new DateTime('today midnight')}
+                        <tr class="schedule_archive">
                     {elseif $item->date_from <= new DateTime('today midnight')}
-                        <tr class="" style="background-color: #4caf50;">
+                        <tr class="schedule_current">
                     {else}
                         <tr class="">
                     {/if}
                     
                         <td>{$item->element->title}</td>
                         <td>{$item->dosage}</td>
-                        <td>{$item->date_from|date:'j. n. Y'}</td>
-                        <td>{$item->date_to|date:'j. n. Y'}</td>
+                        <td class="schedule_date">{$item->date_from|date:'j. n. Y'}</td>
+                        <td class="schedule_date">{$item->date_to|date:'j. n. Y'}</td>
                         <td>{$item->receipt_time}</td>
                         <td>{$item->start_reminder}</td>
 

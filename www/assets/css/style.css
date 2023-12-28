@@ -195,6 +195,15 @@ table {
     border-collapse: collapse;
 }
 
+.schedule_date {
+    font-size: 20px;
+}
+.schedule_archive {
+    opacity: 0.3;
+}
+.schedule_current {
+    background-color: #c2ff56;
+}
 
 
 
