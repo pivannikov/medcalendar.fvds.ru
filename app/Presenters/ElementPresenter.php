@@ -23,7 +23,7 @@ final class ElementPresenter extends Nette\Application\UI\Presenter
 			$this->redirect('Sign:in');
 		}
 		if ($this->getUser()->isLoggedIn() && !$this->getUser()->isInRole('admin')) {
-			$this->redirect('Panel:index');
+			$this->redirect('User:index');
 		}
 		
 	}

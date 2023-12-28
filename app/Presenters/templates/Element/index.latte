@@ -43,11 +43,11 @@
 					</td>
 					
 					<td n:if="$user->isInRole('admin')">
-						<a href="#modal-one" class="btn-modal custom_button button_danger">delete</a>
+						<a href="#modal-{$element->id}" class="btn-modal custom_button button_danger">delete</a>
 					</td>
 
 					<!-- Modal window -->  
-					<div class="modal" id="modal-one" aria-hidden="true">
+					<div class="modal" id="modal-{$element->id}" aria-hidden="true">
 						<div class="modal-dialog">
 							<div class="modal__header">
 								Вы действительно хотите удалить?

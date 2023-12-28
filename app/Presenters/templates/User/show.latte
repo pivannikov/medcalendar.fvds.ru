@@ -22,43 +22,53 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr n:foreach="$shedules as $item" class="">
-					<td>{$item->element->title}</td>
-					<td>{$item->dosage}</td>
-					<td>{$item->date_from|date:'j.n.Y'}</td>
-					<td>{$item->date_to|date:'j.n.Y'}</td>
-					<td>{$item->receipt_time}</td>
-					<td>{$item->start_reminder}</td>
+                {foreach $shedules as $item}
 
-					<td>
-						<a n:href="Panel:edit $item->id">
-							<button class="custom_button button_success">edit</button>
-						</a>
-					</td>
+                {if $item->date_to < new DateTime('today midnight')}
+                        <tr class="" style="opacity: 0.3;">
+                    {elseif $item->date_from <= new DateTime('today midnight')}
+                        <tr class="" style="background-color: #4caf50;">
+                    {else}
+                        <tr class="">
+                    {/if}
+                    
+                        <td>{$item->element->title}</td>
+                        <td>{$item->dosage}</td>
+                        <td>{$item->date_from|date:'j. n. Y'}</td>
+                        <td>{$item->date_to|date:'j. n. Y'}</td>
+                        <td>{$item->receipt_time}</td>
+                        <td>{$item->start_reminder}</td>
 
-					<td>
-						<a href="#modal-one" class="btn-modal custom_button button_danger">delete</a>
-					</td>
+                        <td>
+                            <a n:href="Panel:edit $item->id">
+                                <button class="custom_button button_success">edit</button>
+                            </a>
+                        </td>
 
-					<!-- Modal window -->  
-					<div class="modal" id="modal-one" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal__header">
-								Вы действительно хотите удалить?
-							</div>
-							<div class="modal__body">
-								<a n:href="Panel:delete $item->id" class="btn-delete">
-									<button class="custom_button button_danger">delete</button>
-								</a>
-								<a href="#close" class="btn-close" aria-hidden="true">
-									<button class="custom_button button_default">cancel</button>
-								</a>
-							</div>
-						</div>
-					</div>
-					<!-- Modal window /-->  
+                        <td>
+                            <a href="#modal-{$item->id}" class="btn-modal custom_button button_danger">delete</a>
+                        </td>
 
-				</tr>
+                        <!-- Modal window -->  
+                        <div class="modal" id="modal-{$item->id}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal__header">
+                                    Вы действительно хотите удалить?
+                                </div>
+                                <div class="modal__body">
+                                    <a n:href="Panel:delete $item->id" class="btn-delete">
+                                        <button class="custom_button button_danger">delete</button>
+                                    </a>
+                                    <a href="#close" class="btn-close" aria-hidden="true">
+                                        <button class="custom_button button_default">cancel</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal window /-->  
+
+                    </tr>
+                {/foreach}
 			</tbody>
 		</table>
 	</div>

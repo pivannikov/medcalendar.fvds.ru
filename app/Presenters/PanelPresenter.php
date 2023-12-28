@@ -40,32 +40,32 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
 	}
 
 
-    public function renderIndex(): void
-    {        
-        $user = $this->getUser();
+    // public function renderIndex(): void
+    // {        
+    //     $user = $this->getUser();
 
-        $this->template->user_name = $this->database
-            ->table('users')
-            ->get($user->getId());
+    //     $this->template->user_name = $this->database
+    //         ->table('users')
+    //         ->get($user->getId());
 
-        if (!$this->getUser()->isInRole('admin')) {
+    //     if (!$this->getUser()->isInRole('admin')) {
 
-            $this->template->shedule = $this->database
-                ->table('shedule')
-                ->where('user_id', $user->getId());
-		} else {
+    //         $this->template->shedule = $this->database
+    //             ->table('shedule')
+    //             ->where('user_id', $user->getId());
+	// 	} else {
 
-            $this->template->shedule = $this->database
-                ->table('shedule');
-        }
+    //         $this->template->shedule = $this->database
+    //             ->table('shedule');
+    //     }
 
-    }
+    // }
 
 
     public function renderEdit(int $sheduleId): void
     {
         if (!$this->getUser()->isInRole('admin')) {
-			$this->redirect('Panel:index');
+			$this->redirect('User:index');
 		}
 
         $shedule = $this->database
@@ -84,7 +84,7 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
     protected function createComponentSheduleForm(): Form
     {
         if (!$this->getUser()->isInRole('admin')) {
-			$this->redirect('Panel:index');
+			$this->redirect('User:index');
 		}
 
         $form = new Form;
@@ -151,7 +151,7 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
         }
 
         $this->flashMessage('Запись добавлена', 'success');
-        $this->redirect('Panel:index');
+        $this->redirect('User:index');
 
     }
 
@@ -159,14 +159,14 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
     public function actionDelete(int $sheduleId )
     {
         if (!$this->getUser()->isInRole('admin')) {
-			$this->redirect('Panel:index');
+			$this->redirect('User:index');
 		}
         
         $form = new Form;
         try {
                 $this->flashMessage("Recipe Category Deleted", 'success');
                 $this->database->table('shedule')->where('id', $sheduleId)->delete();
-                $this->redirect('Panel:index');
+                $this->redirect('User:index');
 
         } catch (Nette\Security\AuthenticationException $e) {
             $form->addError('Delete Recipe Category Failed'.$e->getMessage() );

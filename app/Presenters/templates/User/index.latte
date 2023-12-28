@@ -6,7 +6,6 @@
 		<table class="users__table">
 			<thead>
 				<tr>
-					<th>id</th>
 					<th>Имя</th>
 					<th>email</th>
 					<th>Телефон</th>
@@ -17,13 +16,12 @@
 			</thead>
 			<tbody>
 				<tr n:foreach="$users as $item" class="">
-					<td>{$item->id}</td>
 					<td><b><a n:href="User:show $item->id">{$item->first_name} {$item->last_name}</a></b></td>
 					<td>{$item->email}</td>
 					<td>{$item->phone}</td>
-					<td>{$item->birth_date}</td>
-					<td>{$item->role}</td>
-					<td>{$item->gender}</td>
+					<td>{$item->birth_date|date:'j. n. Y'}</td>
+					<td>{$item->role == admin ? 'админ' : 'пользователь'}</td>
+					<td>{$item->gender == m ? 'м' : 'ж'}</td>
 					
 				</tr>
 			</tbody>

@@ -43,7 +43,7 @@ final class SignPresenter extends Nette\Application\UI\Presenter
         try {
             $this->getUser()->login($data->email, $data->password);
             $this->flashMessage('Вы успешно авторизованы!');
-            $this->redirect('Panel:index');
+            $this->redirect('User:index');
 
         } catch (Nette\Security\AuthenticationException $e) {
             $form->addError('Неправильные логин или пароль.');
@@ -112,12 +112,12 @@ final class SignPresenter extends Nette\Application\UI\Presenter
             $this->mailer->send($system_mail);
     
             $this->flashMessage('Здравствуйте, вы успешно зарегистрированы!');
-            $this->redirect('Panel:index');
+            $this->redirect('User:index');
 
         } else {
 
             $this->flashMessage('Secret key error...');
-            $this->redirect('Panel:index');
+            $this->redirect('User:index');
         }
 
         

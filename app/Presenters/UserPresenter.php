@@ -23,7 +23,7 @@ final class UserPresenter extends Nette\Application\UI\Presenter
 			$this->redirect('Sign:in');
 		}
 		if ($this->getUser()->isLoggedIn() && !$this->getUser()->isInRole('admin')) {
-			$this->redirect('Panel:index');
+			$this->redirect('User:index');
 		}
 		
 	}
@@ -41,7 +41,8 @@ final class UserPresenter extends Nette\Application\UI\Presenter
 
         $this->template->shedules = $this->database
             ->table('shedule')
-            ->where('user_id', $memberId);
+            ->where('user_id', $memberId)
+            ->order('date_from');
         
         $this->template->member = $this->database
             ->table('users')->get($memberId);
@@ -113,7 +114,7 @@ final class UserPresenter extends Nette\Application\UI\Presenter
         }
 
         $this->flashMessage('Запись добавлена', 'success');
-        $this->redirect('Panel:index');
+        $this->redirect('User:index');
 
     }
 
@@ -124,7 +125,7 @@ final class UserPresenter extends Nette\Application\UI\Presenter
         try {
                 $this->flashMessage("Recipe Category Deleted", 'success');
                 $this->database->table('shedule')->where('id', $sheduleId)->delete();
-                $this->redirect('Panel:index');
+                $this->redirect('User:index');
 
         } catch (Nette\Security\AuthenticationException $e) {
             $form->addError('Delete Recipe Category Failed'.$e->getMessage() );

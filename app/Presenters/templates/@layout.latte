@@ -20,7 +20,7 @@
             <div class="header__wrapper">
 
 				<div class="header__logo">
-                    <a n:href="Panel:index" class="header__logo-link">
+                    <a n:href="User:index" class="header__logo-link">
                         <img src="{$basePath}/images/logo.png" alt="" class="header__logo-img">
                     </a>
                 </div>
@@ -28,14 +28,13 @@
 				<nav class="header__nav">
 					
 					<div class="header__menu">
-						<a n:if="$user->isInRole('admin')" n:href="Panel:index" class="nav__link">Главная</a>
-						<a n:if="$user->isInRole('admin')" n:href="Element:index" class="nav__link">Все элементы</a>
 						<a n:if="$user->isInRole('admin')" n:href="User:index" class="nav__link">Все пользователи</a>
+						<a n:if="$user->isInRole('admin')" n:href="Element:index" class="nav__link">Все элементы</a>
 						
 					</div>
 					<div class="sign__block">
 						{if $user->isLoggedIn()}
-							<a n:href="Panel:index" class="nav__link">Hello, {$user->identity->name}</a>
+							<a n:href="User:index" class="nav__link">Hello, {$user->identity->name}</a>
 							<a n:href="Sign:out" class="nav__link">Выйти</a>
 						{/if}
 					</div>
