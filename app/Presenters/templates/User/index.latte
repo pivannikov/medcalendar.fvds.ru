@@ -8,8 +8,8 @@
 				<tr>
 					<th>Имя</th>
 					<th>email</th>
-					<th>Телефон</th>
-					<th>Дата рождения</th>
+					<!-- <th>Телефон</th>
+					<th>Дата рождения</th> -->
 					<th>Роль пользователя</th>
 					<th>Пол</th>
 				</tr>
@@ -18,8 +18,8 @@
 				<tr n:foreach="$users as $item" class="">
 					<td><b><a n:href="User:show $item->id">{$item->first_name} {$item->last_name}</a></b></td>
 					<td>{$item->email}</td>
-					<td>{$item->phone}</td>
-					<td>{$item->birth_date|date:'j. n. Y'}</td>
+					<!-- <td>{$item->phone}</td>
+					<td>{$item->birth_date|date:'j. n. Y'}</td> -->
 					<td>{$item->role == admin ? 'админ' : 'пользователь'}</td>
 					<td>{$item->gender == m ? 'м' : 'ж'}</td>
 					

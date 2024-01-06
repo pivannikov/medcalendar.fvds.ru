@@ -63,12 +63,12 @@ final class SignPresenter extends Nette\Application\UI\Presenter
         $form->addEmail('email', 'Email:')
 			->setRequired('Пожалуйста, введите ваше email.');
 
-        $form->addText('phone', 'Телефон:')
-            ->setHtmlType('tel');
+        // $form->addText('phone', 'Телефон:')
+        //     ->setHtmlType('tel');
 
-        $form->addDate('birth_date', 'Date:')
-            ->setFormat('Y-m-d')
-            ->setRequired('Пожалуйста, выберите дату рождения.');
+        // $form->addDate('birth_date', 'Date:')
+        //     ->setFormat('Y-m-d')
+        //     ->setRequired('Пожалуйста, выберите дату рождения.');
 
         $gender = [
             'm' => 'мужской',
@@ -95,7 +95,7 @@ final class SignPresenter extends Nette\Application\UI\Presenter
     {
         if ($data['signup_token'] == $this->variablesStore->signup_token) {
 
-            $this->authentificator->createUser($data['first_name'], $data['last_name'], $data['email'], $data['phone'], $data['birth_date'], $data['role'] = 'member', $data['gender'], $data['password']);
+            $this->authentificator->createUser($data['first_name'], $data['last_name'], $data['email'], /*$data['phone'], $data['birth_date'],*/ $data['role'] = 'member', $data['gender'], $data['password']);
 
             $mail = new Message;
             $mail->setFrom($this->variablesStore->server_sender_email)

@@ -81,12 +81,28 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
 		    ->setDefaults($shedule->fetch());
 
     }
+    public function renderCreate(int $customer): void
+    {
+        if (!$this->getUser()->isInRole('admin')) {
+			$this->redirect('User:index');
+		}
+
+        if (!$customer) {
+            $this->error('User не найден');
+        }
+
+        $this->getComponent('sheduleForm')
+		    ->setDefaults([$customer]);
+
+    }
 
     protected function createComponentSheduleForm(): Form
     {
         if (!$this->getUser()->isInRole('admin')) {
 			$this->redirect('User:index');
 		}
+
+        $customer_id = $this->getHttpRequest()->getQuery('customer');
 
         $form = new Form;
 
@@ -97,7 +113,14 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
         foreach ($members_raw as $key => $member) {
             $members[$member->id] = $member->first_name . ' ' . $member->last_name;
         }
-        $form->addSelect('user_id', 'User:', $members);
+        $form->addMultiSelect('user_id', 'User:', $members)
+            ->setDefaultValue($customer_id);
+
+        
+        // $form->addMultiSelect('countries', 'Страны:', $members)
+        //     ->setDefaultValue($customer_id);
+
+
 
         $elements = $this->database
             ->table('elements')
@@ -137,7 +160,10 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
    
     private function sheduleFormSucceeded(array $data): void
     {
+        // dump($data);
+        // die;
         $sheduleId = $this->getParameter('sheduleId');
+        $customer_id = $this->getHttpRequest()->getQuery('customer');
 
         if ($sheduleId) {
             $shedule = $this->database
@@ -146,13 +172,21 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
             $shedule->update($data);
 
         } else {
-            $shedule = $this->database
+
+            foreach($data['user_id'] as $key => $user_id) {
+                $new_data = $data;
+                $new_data['user_id'] = $user_id;
+                
+                $this->database
                 ->table('shedule')
-                ->insert($data);
+                ->insert($new_data);
+            }
+
+
         }
 
         $this->flashMessage('Запись добавлена', 'success');
-        $this->redirect('User:show', ['memberId' => $data['user_id']]);
+        $this->redirect('User:show', ['memberId' => $customer_id]);
 
     }
 
@@ -162,15 +196,17 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
         if (!$this->getUser()->isInRole('admin')) {
 			$this->redirect('User:index');
 		}
-        
+
+        $customer_id = $this->database->fetchField('SELECT user_id FROM shedule WHERE id = ?', $sheduleId);
+
         $form = new Form;
         try {
-                $this->flashMessage("Recipe Category Deleted", 'success');
+                $this->flashMessage("Запись успешно удалена", 'success');
                 $this->database->table('shedule')->where('id', $sheduleId)->delete();
-                $this->redirect('User:index');
+                $this->redirect('User:show', ['memberId' => $customer_id]);
 
         } catch (Nette\Security\AuthenticationException $e) {
-            $form->addError('Delete Recipe Category Failed'.$e->getMessage() );
+            $form->addError('При удалении возникла ошибка. Обратитесь к разработчику портала.'.$e->getMessage() );
         }
         $this->terminate();
     }

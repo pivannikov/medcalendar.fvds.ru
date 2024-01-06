@@ -111,7 +111,6 @@ final class UserPresenter extends Nette\Application\UI\Presenter
 
         $form->addHidden('user_id', $uid);
 
-
         $form->addSubmit('send', 'Save and public');
         $form->onSuccess[] = $this->sheduleFormSucceeded(...);
 

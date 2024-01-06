@@ -62,7 +62,7 @@ final class ElementPresenter extends Nette\Application\UI\Presenter
     }
 
     protected function createComponentElementForm(): Form
-    {
+    {        
         $form = new Form;
         
         $form->addText('title', 'Название:')

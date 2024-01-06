@@ -33,9 +33,9 @@ class LocalAuthenticator implements Nette\Security\Authenticator
 		);
 	}
 
-	public function createUser(string $first_name, string $last_name, string $email, string $phone, $birth_date, string $role = 'member',  string $gender, string $password)
+	public function createUser(string $first_name, string $last_name, string $email, /*string $phone, $birth_date,*/ string $role = 'member',  string $gender, string $password)
 	{
-		$this->database->table('users')->insert(['first_name' => $first_name, 'last_name' => $last_name, 'email' => $email, 'phone' => $phone, 'birth_date' => $birth_date, 'role' => $role, 'gender' => $gender, 'password' => $this->passwords->hash($password)]);
+		$this->database->table('users')->insert(['first_name' => $first_name, 'last_name' => $last_name, 'email' => $email, /*'phone' => $phone, 'birth_date' => $birth_date,*/ 'role' => $role, 'gender' => $gender, 'password' => $this->passwords->hash($password)]);
 
 		return $email;
 	}

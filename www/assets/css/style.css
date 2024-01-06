@@ -128,9 +128,14 @@ p {
 }
 .select_input {
     width: 40%;
-    padding: 10px;
-    font-size: 15px;
+    padding: 15px;
+    font-size: 17px;
 }
+.select_input option{
+    height: 38px;
+    padding-top: 10px;
+    padding-left: 10px;
+ }
 .summernote__block {
     max-width: 40%;
 }

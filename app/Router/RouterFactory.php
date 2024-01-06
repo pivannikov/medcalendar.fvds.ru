@@ -19,7 +19,7 @@ final class RouterFactory
 		$router->addRoute('sign-up', 'Sign:up');
 		$router->addRoute('sign-out', 'Sign:out');
 
-		$router->addRoute('panel/create', 'Panel:create')
+		$router->addRoute('panel/create/[<id \d+>]', 'Panel:create')
 			->addRoute('panel/edit[/<id \d+>]', 'Panel:edit')
 			->addRoute('panel/delete/[/<id \d+>]', 'Panel:delete');
 		
