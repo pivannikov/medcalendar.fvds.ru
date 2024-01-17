@@ -24,11 +24,17 @@ final class RouterFactory
 			->addRoute('panel/delete/[/<id \d+>]', 'Panel:delete');
 		
 		$router->addRoute('user/index', 'User:index')
-			->addRoute('user/show[/<id \d+>]', 'User:show')
-			->addRoute('element/index', 'Element:index')
+			->addRoute('user/show[/<id \d+>]', 'User:show');
+
+		$router->addRoute('element/index', 'Element:index')
 			->addRoute('element/create', 'Element:create')
 			->addRoute('element/edit[/<id \d+>]', 'Element:edit')
 			->addRoute('element/delete[/<id \d+>]', 'Element:delete');
+
+		$router->addRoute('notepad/index', 'Notepad:index')
+			->addRoute('notepad/create', 'Notepad:create')
+			->addRoute('notepad/edit[/<id \d+>]', 'Notepad:edit')
+			->addRoute('notepad/delete[/<id \d+>]', 'Notepad:delete');
 		
 		return $router;
 	}

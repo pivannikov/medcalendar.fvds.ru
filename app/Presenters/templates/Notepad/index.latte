@@ -1,0 +1,48 @@
+{block content}
+
+<section class="elements">
+	<div class="container">
+		<h1 n:block="title" class="mb-3 mt-1">Элементы</h1>
+
+		<a n:if="$user->isInRole('admin')" n:href="Notepad:create">
+			<button class="custom_button button_default mb-3">Добавить запись</button>
+		</a>
+
+		<div n:foreach="$posts as $post">
+            <h3>{$post->title}</h3>
+            <p>{$post->description|noescape}</p>
+            <p>
+                <a n:href="Notepad:edit $post->id">
+                    <button class="custom_button button_success">edit</button>
+                </a>
+                <a href="#modal-{$post->id}" class="btn-modal custom_button button_danger">delete</a>
+            </p>
+
+            <!-- Modal window -->  
+					<div class="modal" id="modal-{$post->id}" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal__header">
+								Вы действительно хотите удалить?
+							</div>
+							<div class="modal__body">
+								<a n:href="Notepad:delete $post->id" class="btn-delete">
+									<button class="custom_button button_danger">delete</button>
+								</a>
+								<a href="#close" class="btn-close" aria-hidden="true">
+									<button class="custom_button button_default">cancel</button>
+								</a>
+							</div>
+						</div>
+					</div>
+					<!-- Modal window /-->
+                    
+        </div>
+
+					
+					
+
+	</div>
+</section>
+
+{/block}
+

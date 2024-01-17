@@ -1,0 +1,36 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Начало приема</title>
+	<style>
+	body {
+		background-color: #eeeeee;
+	}
+	.content {
+		padding: 10px;
+	}
+	a {
+		text-decoration: none;
+		color: #424242;
+	}
+	</style>
+</head>
+<body>
+	<div class="content">
+        {foreach $customers as $key => $value}
+	
+            <p><b>{$value['first_name']}:</b></p>
+            <p>Начать прием: <u>{$value['element_title']|capitalize}</u></p>
+            <p>Даты: {$value['date_from']|date:'j.n.Y'} - {$value['date_to']|date:'j.n.Y'}</p>
+            <p>Дозировка: {$value['element_dosage'] == '' ? '  - ' : $value['element_dosage']}</p>
+            <p>Время приема: {$value['receipt_time'] == '' ? '  - ' : $value['receipt_time']}</p>
+            <hr>
+
+        {/foreach}
+		<p><a href="http://medcalendar.fvds.ru">www.medcalendar.fvds.ru</a></p>
+	</div>
+</body>
+</html>
+
+
+

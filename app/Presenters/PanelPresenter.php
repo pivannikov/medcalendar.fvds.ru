@@ -40,29 +40,6 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
 		}
 	}
 
-
-    // public function renderIndex(): void
-    // {        
-    //     $user = $this->getUser();
-
-    //     $this->template->user_name = $this->database
-    //         ->table('users')
-    //         ->get($user->getId());
-
-    //     if (!$this->getUser()->isInRole('admin')) {
-
-    //         $this->template->shedule = $this->database
-    //             ->table('shedule')
-    //             ->where('user_id', $user->getId());
-	// 	} else {
-
-    //         $this->template->shedule = $this->database
-    //             ->table('shedule');
-    //     }
-
-    // }
-
-
     public function renderEdit(int $sheduleId): void
     {
         if (!$this->getUser()->isInRole('admin')) {
@@ -77,7 +54,7 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
             $this->error('Пост не найден');
         }
 
-        $this->getComponent('sheduleForm')
+        $this->getComponent('sheduleEditForm')
 		    ->setDefaults($shedule->fetch());
 
     }
@@ -117,11 +94,6 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
             ->setDefaultValue($customer_id);
 
         
-        // $form->addMultiSelect('countries', 'Страны:', $members)
-        //     ->setDefaultValue($customer_id);
-
-
-
         $elements = $this->database
             ->table('elements')
             ->fetchPairs('id', 'title');        
@@ -160,8 +132,7 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
    
     private function sheduleFormSucceeded(array $data): void
     {
-        // dump($data);
-        // die;
+        
         $sheduleId = $this->getParameter('sheduleId');
         $customer_id = $this->getHttpRequest()->getQuery('customer');
 
@@ -169,6 +140,7 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
             $shedule = $this->database
                 ->table('shedule')
                 ->get($sheduleId);
+
             $shedule->update($data);
 
         } else {
@@ -186,6 +158,80 @@ final class PanelPresenter extends Nette\Application\UI\Presenter
         }
 
         $this->flashMessage('Запись добавлена', 'success');
+        $this->redirect('User:show', ['memberId' => $customer_id]);
+
+    }
+
+    protected function createComponentSheduleEditForm(): Form
+    {
+        if (!$this->getUser()->isInRole('admin')) {
+			$this->redirect('User:index');
+		}
+
+        $customer_id = $this->getHttpRequest()->getQuery('customer');
+
+        $form = new Form;
+
+        $members_raw = $this->database
+            ->table('users')
+            ->fetchPairs('id');
+
+        foreach ($members_raw as $key => $member) {
+            $members[$member->id] = $member->first_name . ' ' . $member->last_name;
+        }
+        $form->addSelect('user_id', 'User:', $members)
+            ->setDefaultValue($customer_id);
+
+        
+        $elements = $this->database
+            ->table('elements')
+            ->fetchPairs('id', 'title');        
+        $form->addSelect('element_id', 'Element:', $elements);
+
+        $form->addText('dosage', 'Дозировка:');
+
+        $form->addDate('date_from', 'Date from:')
+            ->setFormat('Y-m-d')
+            ->setRequired('Пожалуйста, выберите дату от:');
+
+        $form->addDate('date_to', 'Date to:')
+            ->setFormat('Y-m-d')
+            ->setRequired('Пожалуйста, выберите дату до:');
+
+        $start_reminder_options = [
+            '1' => 'за день',
+            '0' => 'в день приема',
+        ];
+        $form->addSelect('start_reminder', 'Напомнить о приеме:', $start_reminder_options)
+            ->setDefaultValue('1');
+
+
+        $form->addText('receipt_time', 'Время приема:');
+
+        $form->addCheckbox('published', 'Опубликовать:')
+            ->setDefaultValue(true);
+
+
+        $form->addSubmit('send', 'Save and public');
+        $form->onSuccess[] = $this->sheduleEditFormSucceeded(...);
+
+        return $form;
+    }
+
+    private function sheduleEditFormSucceeded(array $data): void
+    {
+        
+        $sheduleId = $this->getParameter('sheduleId');
+
+        $customer_id = $data['user_id'];
+
+        $shedule = $this->database
+            ->table('shedule')
+            ->get($sheduleId);
+
+        $shedule->update($data);
+
+        $this->flashMessage('Запись обновлена', 'success');
         $this->redirect('User:show', ['memberId' => $customer_id]);
 
     }

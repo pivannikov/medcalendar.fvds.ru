@@ -1,0 +1,33 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Начало приема</title>
+	<style>
+	body {
+		background-color: #eeeeee;
+	}
+	.content {
+		padding: 10px;
+	}
+	a {
+		text-decoration: none;
+		color: #424242;
+	}
+	</style>
+</head>
+<body>
+	<div class="content">
+        {foreach $customers as $key => $value}
+	
+            <p><b>{$value['first_name']}:</b></p>
+            <p>Закончить прием: <u>{$value['element_title']|capitalize}</u> {$value['date_to']|date:'j.n.Y'}</p>
+            <hr>
+
+        {/foreach}
+		<p><a href="http://medcalendar.fvds.ru">www.medcalendar.fvds.ru</a></p>
+	</div>
+</body>
+</html>
+
+
+

@@ -1,0 +1,32 @@
+{block content}
+
+<section class="element-create">
+	<div class="container">
+        <h1 n:block="title">Редактировать элемент</h1>
+
+        <form n:name=postForm class=form>
+
+            <div class="label_block">
+                <label for="title" n:name=title class="label">Название</label>
+            </div>
+            <div>
+                <input id="title" n:name=title class="input text_input">
+            </div>
+
+            <div class="label_block">
+                <label for="summernote" n:name=description class="label">Описание:</label>
+            </div>
+            <div class="summernote__block">
+                <textarea id="summernote" n:name=description class="input textarea_input" rows="5"></textarea>
+            </div>
+           
+            <div class="mt-2">
+                <input n:name=send class="custom_button button_success">
+            </div>
+        </form>
+
+    </div>
+</section>
+
+
+{/block}

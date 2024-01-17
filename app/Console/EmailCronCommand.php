@@ -63,15 +63,32 @@ final class EmailCronCommand extends Command
 		$ending_schedules = $this->getEndingSchedules();
 		$buy_reminders = $this->getBuyReminders();
 
-		if (true) {
-			$this->generateSchedulesEmail($starting_schedules);
-			$this->generateSchedulesEmail($ending_schedules, 'ending_schedules_email.latte');
-			$this->generateBuyReminderEmail($buy_reminders, 'buy_reminders_email.latte');
+		if ((bool) count($starting_schedules)) {
+			$this->generateSchedulesEmail($starting_schedules, 'start');
+		}
+		if ((bool) count($ending_schedules)) {
+			$this->generateSchedulesEmail($ending_schedules, 'stop');
+		}
+		if ((bool) count($starting_schedules)) {
+			$this->generateBuyReminderEmail($buy_reminders, 'buy');
 		}
 	}
 
-	public function generateSchedulesEmail(Selection|array $schedules_data, $email_template = 'starting_schedules_email.latte')
+	public function generateSchedulesEmail(Selection|array $schedules_data, $action)
 	{
+
+        $admin_notice_params = [];
+        $a_counter = 0;
+
+        $action_template = match ($action) {
+            'start' => 'starting_schedules_email.latte',
+            'stop' => 'ending_schedules_email.latte',
+            'buy' => 'buy_reminders_email.latte',
+        };
+        $admin_action_template = match ($action) {
+            'start' => 'starting_schedules_email_admin.latte',
+            'stop' => 'ending_schedules_email_admin.latte',
+        };
 
 		foreach ($schedules_data as $schedule_item) {
 
@@ -90,7 +107,25 @@ final class EmailCronCommand extends Command
 				'element_dosage' => $schedule_item->dosage,
 			];
 			
-			$this->sendMail($email, $admin_email = $this->variablesStore->admin_email, $subject, $email_template, $template_params);
+			$this->sendMail($email, null, $subject, $action_template, $template_params);
+
+            $admin_notice_params[$a_counter]['first_name'] = $first_name;
+            $admin_notice_params[$a_counter]['last_name'] = $first_name;
+            $admin_notice_params[$a_counter]['date_from'] = $schedule_item->date_from;
+            $admin_notice_params[$a_counter]['date_to'] = $schedule_item->date_to;
+            $admin_notice_params[$a_counter]['receipt_time'] = $schedule_item->receipt_time;
+            $admin_notice_params[$a_counter]['element_title'] = $schedule_item->element->title;
+            $admin_notice_params[$a_counter]['element_dosage'] = $schedule_item->dosage;
+            $a_counter++;
+        }
+
+        if (count($admin_notice_params) && ($action_template != 'buy_reminders_email.latte')) {
+
+            $params = [
+                'customers' => $admin_notice_params,
+            ];
+            
+            $this->sendMail($this->variablesStore->admin_email, null, 'Напоминание про пользователей', $admin_action_template, $params);
         }
 	}
 
@@ -117,7 +152,7 @@ final class EmailCronCommand extends Command
 		$latte = new Engine;
 		$mail = new Message;
 
-		if ($email !== $admin_email) {
+		if (($email !== $admin_email) && ($admin_email !== null)) {
 
 			$mail->setFrom($this->variablesStore->server_sender_email)
 				->addTo($email)

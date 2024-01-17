@@ -85,12 +85,6 @@ final class ElementPresenter extends Nette\Application\UI\Presenter
 
         $form->onSuccess[] = $this->elementFormSucceeded(...);
 
-        // $renderer = $form->getRenderer();
-        // $renderer->wrappers['controls']['container'] = 'div class=col-sm-2';
-        // $renderer->wrappers['pair']['container'] = 'div';
-        // $renderer->wrappers['label']['container'] = 'div class=custom_label';
-        // $renderer->wrappers['control']['container'] = 'div class=custom_input';
-
         return $form;
     }
 
@@ -121,12 +115,12 @@ final class ElementPresenter extends Nette\Application\UI\Presenter
     {
         $form = new Form;
         try {
-                $this->flashMessage("Recipe Category Deleted", 'success');
+                $this->flashMessage("Элемент удален", 'success');
                 $this->database->table('elements')->where('id', $elementId)->delete();
                 $this->redirect('Element:index');
 
         } catch (Nette\Security\AuthenticationException $e) {
-            $form->addError('Delete Recipe Category Failed'.$e->getMessage() );
+            $form->addError('ОШибка при удалении элемента'.$e->getMessage() );
         }
         $this->terminate();
     }
