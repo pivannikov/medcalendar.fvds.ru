@@ -30,6 +30,7 @@
 					<div class="header__menu">
 						<a n:if="$user->isInRole('admin')" n:href="User:index" class="nav__link">Все пользователи</a>
 						<a n:if="$user->isInRole('admin')" n:href="Element:index" class="nav__link">Все элементы</a>
+						<a n:if="$user->isInRole('admin')" n:href="Notepad:index" class="nav__link">Блокнот</a>
 						
 					</div>
 					<div class="sign__block">
